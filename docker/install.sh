@@ -6,6 +6,6 @@ set -Eeu
 # Also, the /tmp dir has a csproj file (copied into the docker/ dir ready to be used
 # in the start-point)
 
-[ "$(whoami)" == sandbox ] || (>&2 echo 'User must be sandbox' ; kill -INT $$)
+[ "$(whoami)" == sandbox ] || (>&2 echo 'Error: Script must be run as sandbox user' ; kill -INT $$)
 cd /tmp
 dotnet new nunit
