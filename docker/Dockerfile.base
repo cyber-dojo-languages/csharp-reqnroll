@@ -1,0 +1,7 @@
+FROM ghcr.io/cyber-dojo-languages/csharp:3507507
+LABEL maintainer=jon@jaggersoft.com
+
+USER sandbox
+COPY . .
+RUN ./install.sh
+COPY red_amber_green.rb /usr/local/bin
