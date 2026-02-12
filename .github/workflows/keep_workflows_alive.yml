@@ -1,0 +1,17 @@
+name: Keep workflows alive
+
+on:
+  schedule:
+    - cron: '30 5 * * 6'
+
+jobs:
+
+  keep_workflows_alive:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Keepalive workflow
+        uses: gautamkrishnar/keepalive-workflow@v1
