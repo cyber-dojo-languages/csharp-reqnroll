@@ -3,6 +3,9 @@
    schedule:  # Midnight every day
      - cron: "0 0 * * *"
 
+ permissions:
+   contents: read
+
  jobs:
    cronjob-based-github-action:
      name: Cronjob based github action
