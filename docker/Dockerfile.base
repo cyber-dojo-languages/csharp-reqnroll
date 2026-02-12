@@ -1,4 +1,4 @@
-FROM ghcr.io/cyber-dojo-languages/csharp:3507507
+FROM mcr.microsoft.com/dotnet/sdk:9.0-alpine3.22
 LABEL maintainer=jon@jaggersoft.com
 
 USER sandbox
