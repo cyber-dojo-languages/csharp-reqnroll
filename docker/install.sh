@@ -10,3 +10,4 @@ set -Eeu
 cd /tmp
 dotnet new install Reqnroll.Templates.DotNet
 dotnet new reqnroll-project --testExecutionFramework nunit --framework net9.0 --name temp
+dotnet build
