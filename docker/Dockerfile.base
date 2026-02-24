@@ -4,7 +4,6 @@ LABEL maintainer=jon@jaggersoft.com
 USER sandbox
 COPY . .
 RUN ./install.sh
-COPY red_amber_green.rb /usr/local/bin
 
 # Ensure root user when container boots.
 # This prevents core dumps for max file-size ulimits being
