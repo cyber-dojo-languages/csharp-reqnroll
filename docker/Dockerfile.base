@@ -6,7 +6,7 @@ COPY . .
 RUN ./install.sh
 
 # Ensure root user when container boots.
-# This prevents core dumps for max file-size ulimits being
-# exceeded which can otherwise happen for large packages.
+# This reduces the duration of the cyber-dojo.sh file in the ReqnRoll 
+# start-point from ~8 seconds to ~2 seconds!
 USER root
 
