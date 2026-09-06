@@ -32,25 +32,26 @@ dotnet new reqnroll-project --testExecutionFramework nunit --framework net9.0 --
 dotnet restore
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# 2. the reference assemblies, from a build of the very csproj the start-point
-#    ships, so the list a kata compiles against is the list it would have had.
+# 2. the reference assemblies, from a build of the project the template just
+#    created. They are taken from there rather than from a copy of the
+#    start-point's own csproj because that csproj pins versions, and the
+#    template resolves whatever is current: asking the local package folder for
+#    a pinned version it never downloaded makes restore report NU1603 and float
+#    up to the version that is actually there. Building what was restored says
+#    the same thing without the noise.
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-mkdir -p /tmp/refs_build
-cp /config.csproj /tmp/refs_build/dojo.csproj
-cd /tmp/refs_build
-cat > Placeholder.cs <<'CS'
-public static class Placeholder
-{
-    public static int Answer() { return 42; }
-}
-CS
-dotnet build -p:RestoreSources="${HOME}/.nuget/packages/"
+# The template writes temp.csproj into /tmp itself rather than into a
+# directory of its own, so this is already the project's folder.
+cd /tmp
+dotnet build --no-restore
 
 mkdir -p "${REFS_DIR}"
 cp bin/Debug/net9.0/*.dll "${REFS_DIR}/"
-# The kata compiles its own assembly of this name every run, so shipping one
-# would let a stale copy answer for the learner's edit.
-rm -f "${REFS_DIR}/dojo.dll"
+# The kata compiles its own assembly every run, so shipping the template's
+# would put a stale one beside it. An earlier attempt that shipped the kata's
+# assembly had MSBuild decide the build was already done, and a green kata
+# reported red.
+rm -f "${REFS_DIR}/temp.dll"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # 3. the feature-file generator
