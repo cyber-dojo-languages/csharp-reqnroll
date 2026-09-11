@@ -23,12 +23,18 @@ set -Eeu
 readonly GENERATOR_DIR="${HOME}/reqnroll_generator"
 readonly REFS_DIR="${HOME}/dojo_refs"
 
+# The installed .NET decides which framework everything here targets, so it is
+# asked rather than written out. dotnet --version gives a three-part version
+# and its major is what names the framework.
+readonly DOTNET_MAJOR="$(dotnet --version | cut -d. -f1)"
+readonly TFM="net${DOTNET_MAJOR}.0"
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # 1. the packages
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 cd /tmp
 dotnet new install Reqnroll.Templates.DotNet
-dotnet new reqnroll-project --testExecutionFramework nunit --framework net9.0 --name temp
+dotnet new reqnroll-project --testExecutionFramework nunit --framework "${TFM}" --name temp
 dotnet restore
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -46,7 +52,7 @@ cd /tmp
 dotnet build --no-restore
 
 mkdir -p "${REFS_DIR}"
-cp bin/Debug/net9.0/*.dll "${REFS_DIR}/"
+cp "bin/Debug/${TFM}"/*.dll "${REFS_DIR}/"
 # The kata compiles its own assembly every run, so shipping the template's
 # would put a stale one beside it. An earlier attempt that shipped the kata's
 # assembly had MSBuild decide the build was already done, and a green kata
@@ -87,11 +93,11 @@ rm -f "${GENERATOR_DIR}/FeatureCodeGenerator.cs"
 
 # Names the runtime the generator is hosted on. Without it dotnet refuses to
 # start the assembly at all.
-cat > "${GENERATOR_DIR}/feature_code_generator.runtimeconfig.json" <<'JSON'
+cat > "${GENERATOR_DIR}/feature_code_generator.runtimeconfig.json" <<JSON
 {
   "runtimeOptions": {
-    "tfm": "net10.0",
-    "framework": { "name": "Microsoft.NETCore.App", "version": "10.0.0" }
+    "tfm": "${TFM}",
+    "framework": { "name": "Microsoft.NETCore.App", "version": "${DOTNET_MAJOR}.0.0" }
   }
 }
 JSON

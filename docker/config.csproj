@@ -1,7 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <!-- Taken from the .NET that is installed, rather than written out, so
+         this keeps naming the right one as .NET is updated. Microsoft.NET.Sdk
+         sets NETCoreSdkVersion before this group is read. -->
+    <TargetFramework>net$([System.Version]::Parse($(NETCoreSdkVersion)).Major).0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
