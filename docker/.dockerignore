@@ -1,5 +1,6 @@
 *
 !install.sh
+!record_versions.sh
 !red_amber_green.rb
 !config.csproj
 !FeatureCodeGenerator.cs

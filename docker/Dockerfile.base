@@ -1,4 +1,4 @@
-FROM ghcr.io/cyber-dojo-languages/csharp:2ea42bf
+FROM ghcr.io/cyber-dojo-languages/csharp:4cae4a6
 LABEL maintainer=jon@jaggersoft.com
 
 USER sandbox
@@ -9,4 +9,8 @@ RUN ./install.sh
 # This reduces the duration of the cyber-dojo.sh file in the ReqnRoll 
 # start-point from ~8 seconds to ~2 seconds!
 USER root
+
+# /versions.json belongs to root, so the packages install.sh put in the
+# sandbox user's NuGet cache are recorded now the user is root again.
+RUN bash ./record_versions.sh && rm ./record_versions.sh
 

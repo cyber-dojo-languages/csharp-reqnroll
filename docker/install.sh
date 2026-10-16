@@ -106,7 +106,7 @@ JSON
 # 4. the test runner, which the other csharp start-points also use in place of
 #    dotnet test.
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-dotnet tool install --global NUnit.ConsoleRunner.NetCore --version 3.22.0
+dotnet tool install --global NUnit.ConsoleRunner.NetCore
 
 ls -l "${GENERATOR_DIR}/feature_code_generator.dll"
 echo "reference assemblies: $(ls -1 "${REFS_DIR}" | wc -l)"
